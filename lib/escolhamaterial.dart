@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'login.dart';
 import 'perfil.dart';
 import 'listdoador.dart';
@@ -18,13 +19,21 @@ class _EscolhaMaterialState extends State<EscolhaMaterial> {
     'Lata de Alumínio': false,
   };
 
-  // Mapeia nome do material para o caminho da imagem (substitua pelos seus assets)
   final Map<String, String> _imagensMateriais = {
     'Garrafa PET': 'images/garrafa_pet.png',
     'Óleo de cozinha': 'images/oleo_cozinha.png',
     'Tampinha de Plástico': 'images/tampinha.png',
     'Lata de Alumínio': 'images/lata_aluminio.png',
   };
+
+  Future<void> logout(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('logged_user_email'); // remove usuário logado
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => const Login()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +56,9 @@ class _EscolhaMaterialState extends State<EscolhaMaterial> {
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Color(0xFF81C784), // Verde claro
-                Color(0xFF388E3C), // Verde médio escuro
-                Color.fromARGB(255, 74, 110, 76), // Verde escuro
+                Color(0xFF81C784),
+                Color(0xFF388E3C),
+                Color.fromARGB(255, 74, 110, 76),
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -65,10 +74,7 @@ class _EscolhaMaterialState extends State<EscolhaMaterial> {
                   MaterialPageRoute(builder: (_) => const Perfil()),
                 );
               } else if (value == 'sair') {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (_) => const Login()),
-                );
+                logout(context);
               }
             },
             icon: const Icon(Icons.dehaze, size: 28, color: Colors.white),

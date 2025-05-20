@@ -16,13 +16,14 @@ Future<void> saveUserBasic(Map<String, dynamic> user) async {
   }
 
   // Verifica se o email já está cadastrado
-  bool emailExiste = users.any((u) => u['email'] == user['email']);
-  if (emailExiste) {
-    throw Exception('Email já cadastrado');
+  int index = users.indexWhere((u) => u['email'] == user['email']);
+  if (index >= 0) {
+    // Atualiza o usuário existente
+    users[index] = user;
+  } else {
+    // Adiciona novo usuário
+    users.add(user);
   }
-
-  // Adiciona o novo usuário
-  users.add(user);
 
   // Salva a lista atualizada
   await prefs.setString('users_basic', jsonEncode(users));

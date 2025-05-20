@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'escolhamaterial.dart';
 import 'perfil.dart';
 import 'login.dart';
-import 'doarmaterial.dart'; // <-- importar aqui
+import 'doarmaterial.dart';
 
 class Selecionaraction extends StatelessWidget {
   const Selecionaraction({Key? key}) : super(key: key);
+
+  Future<void> logout(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('logged_user_email'); // remove o usuário logado
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => const Login()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,10 +53,7 @@ class Selecionaraction extends StatelessWidget {
                   MaterialPageRoute(builder: (_) => const Perfil()),
                 );
               } else if (value == 'sair') {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (_) => const Login()),
-                );
+                logout(context); // logoff
               }
             },
             icon: const Icon(Icons.dehaze, size: 28, color: Colors.white),
@@ -131,8 +139,7 @@ class Selecionaraction extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) =>
-                                const DoarMaterial(), // <-- abre a tela doação
+                            builder: (_) => const DoarMaterial(),
                           ),
                         );
                       },

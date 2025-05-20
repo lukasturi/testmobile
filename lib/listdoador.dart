@@ -144,7 +144,7 @@ class _PerfisCorrespondentesState extends State<PerfisCorrespondentes> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (_) => AgendamentoColeta(nomePerfil: nome),
+                builder: (_) => AgendamentoColeta(nomePessoa: nome),
               ),
             );
           },

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'login.dart';
+import 'perfil.dart';
 
 class DoarMaterial extends StatefulWidget {
   const DoarMaterial({Key? key}) : super(key: key);
@@ -153,6 +155,40 @@ class _DoarMaterialState extends State<DoarMaterial> {
             ),
           ),
         ),
+        actions: [
+          PopupMenuButton<String>(
+            onSelected: (value) {
+              if (value == 'perfil') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const Perfil()),
+                );
+              } else if (value == 'sair') {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (_) => const Login()),
+                );
+              }
+            },
+            icon: const Icon(Icons.dehaze, size: 28, color: Colors.white),
+            itemBuilder: (context) => [
+              const PopupMenuItem<String>(
+                value: 'perfil',
+                child: ListTile(
+                  leading: Icon(Icons.account_circle),
+                  title: Text('Perfil'),
+                ),
+              ),
+              const PopupMenuItem<String>(
+                value: 'sair',
+                child: ListTile(
+                  leading: Icon(Icons.logout),
+                  title: Text('Sair'),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
       backgroundColor: const Color(0xFFE8F5E9),
       body: Padding(
